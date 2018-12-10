@@ -1,6 +1,6 @@
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.lang.*;
+import java.io.*;
 import java.util.*;
 import javax.swing.*;
 public class Date212GUI extends JFrame {
@@ -10,12 +10,7 @@ JTextArea left_area, right_area;
 public Date212GUI(String fileName)
 {
 super("Date212List");
-GuiFunction();
-readFile(fileName);
 
-}
-private void GuiFunction()
-{
          this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          this.setLayout(new GridLayout(1, 2, 10, 10));
          this.left_area = new JTextArea();// text areas
@@ -25,13 +20,34 @@ private void GuiFunction()
          this.setSize(400, 300);// To set size 
          this.setLocation(200, 200);
          this.setTitle("Project 2");// To set title     
+
+              // new   file menu objects created here
+        JMenuItem open = new JMenuItem("Open");
+        JMenuItem quit = new JMenuItem("Quit");
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        FileMenuHandler fmh = new FileMenuHandler(this);
+        
+        // the action listener has been added to the menu bar 
+        open.addActionListener(fmh);
+        quit.addActionListener(fmh);
+        
+        // Add the menu items to the file menu
+        fileMenu.add(open);
+        fileMenu.addSeparator();
+        fileMenu.add(quit);
+
+        // Add file menu to the menu bar, and set this gui's
+        // menu bar to the menuBar we created above
+        menuBar.add(fileMenu);
+        this.setJMenuBar(menuBar);
+
          this.setVisible(true);// To set visibility       
       // calling all the functions in the GUI 
 }
- public void readFile(String file_name)
+ public void readFile(File file)
  {       //A new file class
-        File file = new File(file_name);
-   Scanner reader; 
+   Scanner reader=null;
     try {
         //Scanner object and passed the file to its parameter
         reader = new Scanner(file);
